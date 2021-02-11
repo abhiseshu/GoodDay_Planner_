@@ -2,12 +2,17 @@ package com.example.gooddayplanner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.time.Month;
@@ -101,7 +106,44 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton fab = findViewById(R.id.fabIdMonthView);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
 
+
+    }
+    //left swipe feature
+    float x1, x2, y1, y2;
+    static int MIN_DISTANCE = 150;
+
+    public boolean onTouchEvent (MotionEvent touchEvent){
+        switch (touchEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                x1 = touchEvent.getX();
+                y1 = touchEvent.getY();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = touchEvent.getX();
+                y2 = touchEvent.getY();
+
+                float valueX =  x2-x1;
+
+                float valueY = y2-y1;
+
+                if(Math.abs(valueX)>MIN_DISTANCE){
+                    if (x1 > x2) {
+                        Intent i = new Intent(getApplicationContext(), WeekMonthView.class);
+                        startActivity(i);
+                    }
+                }
+                break;
+        }
+        return false;
     }
     void updateMonth(){
         countday = 0;
