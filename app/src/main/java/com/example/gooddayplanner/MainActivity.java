@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     int curMonthDays;
     ArrayList<DayMonth> arrayList;
     DayMonthAdapter dayMonthAdapter;
+    String curMonth;
+    String curYear;
+    SimpleDateFormat monthFormat;
+    SimpleDateFormat yearFormat;
+    private DatabaseHandler db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,15 +46,25 @@ public class MainActivity extends AppCompatActivity {
         cal = Calendar.getInstance();
         cal.set(Calendar.DAY_OF_MONTH, 1);
 
+        db = DatabaseHandler.getInstance(this);
+
         gridView = (GridView) findViewById(R.id.girdviewid);
 
         format = new SimpleDateFormat("dd");
+
+        monthFormat = new SimpleDateFormat("MM");
+
+        yearFormat = new SimpleDateFormat("yyyy");
 
         arrayList = new ArrayList<DayMonth>();
 
         monthText = (TextView) findViewById(R.id.monthyearid);
 
         monthText.setText(new SimpleDateFormat("MMM, yyyy").format(cal.getTime()));
+
+        curMonth = monthFormat.format(cal.getTime());
+
+        curYear = yearFormat.format(cal.getTime());
 
         countday = 0;
         monthDays = new String[37];
@@ -76,6 +92,28 @@ public class MainActivity extends AppCompatActivity {
             countday += 1;
             curMonthDays +=1;
         }
+
+        updateIndicatorOnMonth();
+
+        //is event on that day
+//        for (int j=0;j<37;j++){
+//
+//            String tempDay = arrayList.get(j).getmDay();
+//
+//            if(tempDay == "")
+//                continue;
+//            GregorianCalendar gregorianCalendar = new GregorianCalendar(Integer.parseInt(curYear), Integer.parseInt(curMonth) -1, Integer.parseInt(tempDay));
+//            Log.i("MAIN ACTIVITY",j+" NO: "+ tempDay+" "+curMonth+" "+curYear +" "+ gregorianCalendar.getTimeInMillis());
+//
+//            Event obj[] = db.getEventsForDay(gregorianCalendar.getTimeInMillis());
+//            for(int i=0;i<obj.length;i++){
+//                Log.i("EVENT INFO",obj[i].getName() + " " + obj[i].getStart() + " " + obj[i].getEnd() + " " + obj[i].getDate()+" "+ obj[i].getLocation() +" "+ obj[i].getDescription() +" " + obj[i].getID());
+//            }
+//            if (obj.length >= 1){
+//                arrayList.get(j).setEvent(true);
+//            }
+//
+//        }
 
         dayMonthAdapter = new DayMonthAdapter(getApplicationContext(), R.layout.monthdayitem, arrayList);
 
@@ -112,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                Intent createEventIntent = new Intent(getApplicationContext(), EventCreateActivity.class);
+                startActivity(createEventIntent);
             }
         });
 
@@ -150,8 +190,13 @@ public class MainActivity extends AppCompatActivity {
         curMonthDays = 0;
 
         monthText.setText(new SimpleDateFormat("MMM, yyyy").format(cal.getTime()));
+
+        curMonth = monthFormat.format(cal.getTime());
+
+        curYear = yearFormat.format(cal.getTime());
+
         for(int i = 0; i<37;i++){
-            monthDays[i] = " ";
+            monthDays[i] = "";
             arrayList.get(i).setmDay(monthDays[i]);
         }
 
@@ -174,8 +219,32 @@ public class MainActivity extends AppCompatActivity {
             curMonthDays += 1;
         }
 
+        updateIndicatorOnMonth();
+
         dayMonthAdapter.notifyDataSetChanged();
 
+    }
+
+    void updateIndicatorOnMonth(){
+
+        for (int j=0;j<37;j++){
+
+            String tempDay = arrayList.get(j).getmDay();
+            arrayList.get(j).setEvent(false);
+            if(tempDay == "")
+                continue;
+            GregorianCalendar gregorianCalendar = new GregorianCalendar(Integer.parseInt(curYear), Integer.parseInt(curMonth) -1, Integer.parseInt(tempDay));
+            Log.i("MAIN ACTIVITY",j+" NO: "+ tempDay+" "+curMonth+" "+curYear +" "+ gregorianCalendar.getTimeInMillis());
+
+            Event obj[] = db.getEventsForDay(gregorianCalendar.getTimeInMillis());
+            for(int i=0;i<obj.length;i++){
+                Log.i("EVENT INFO",obj[i].getName() + " " + obj[i].getStart() + " " + obj[i].getEnd() + " " + obj[i].getDate()+" "+ obj[i].getLocation() +" "+ obj[i].getDescription() +" " + obj[i].getID());
+            }
+            if (obj.length >= 1){
+                arrayList.get(j).setEvent(true);
+            }
+
+        }
     }
 
 

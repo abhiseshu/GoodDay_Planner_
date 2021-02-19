@@ -27,23 +27,43 @@ public class WeekMonthView extends AppCompatActivity {
     Calendar now;
     SimpleDateFormat format;
     ListView listView;
-    ArrayAdapter arrayAdapter;
-    ArrayList arrayList;
+    DayWeekAdapter arrayAdapter;
+    ArrayList<DayWeek> arrayList;
     int curWeekPos = 0;
     boolean isRight;
     TextView weekName;
     String weekNameStr=" ";
     SimpleDateFormat weeknameformat;
+    DatabaseHandler db;
+    String curDay;
+    String curMonth;
+    String curYear;
+    SimpleDateFormat dayFormat;
+    SimpleDateFormat monthFormat;
+    SimpleDateFormat yearFormat;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_month_view);
 
+        db = DatabaseHandler.getInstance(this);
+
+        dayFormat = new SimpleDateFormat("dd");
+
+        monthFormat = new SimpleDateFormat("MM");
+
+        yearFormat = new SimpleDateFormat("yyyy");
+
+        arrayList = new ArrayList<DayWeek>();
+
         weekdays =  new String[7];
         now = Calendar.getInstance();
         format = new SimpleDateFormat("MMM, dd yyyy");
         weeknameformat = new SimpleDateFormat("MMM, dd");
+
+
 
         int delta = -now.get(GregorianCalendar.DAY_OF_WEEK) + 2;
         now.add(Calendar.DAY_OF_MONTH, delta);
@@ -53,6 +73,10 @@ public class WeekMonthView extends AppCompatActivity {
                 weekNameStr = weeknameformat.format(now.getTime())+"-";
             }
             weekdays[i] = format.format(now.getTime());
+            curDay = dayFormat.format(now.getTime());
+            curMonth = monthFormat.format(now.getTime());
+            curYear = yearFormat.format(now.getTime());
+            arrayList.add(new DayWeek(weekdays[i],curDay,curMonth,curYear));
             if(i==6) {
                 weekNameStr += weeknameformat.format(now.getTime());
                 Log.d("TAG",weekNameStr +" "+weeknameformat.format(now.getTime()));
@@ -60,13 +84,14 @@ public class WeekMonthView extends AppCompatActivity {
             now.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-        arrayList = new ArrayList(Arrays.asList(weekdays));
+
+//        arrayList = new ArrayList(Arrays.asList(weekdays));
 
         weekName = (TextView) findViewById(R.id.weeknameid);
 
         listView = (ListView) findViewById(R.id.weeklistview);
 
-        arrayAdapter = new ArrayAdapter(this,R.layout.weekdayitem,R.id.weekdateid,arrayList);
+        arrayAdapter = new DayWeekAdapter(getApplicationContext(),R.layout.weekdayitem,arrayList);
 
         listView.setAdapter(arrayAdapter);
 
@@ -101,20 +126,31 @@ public class WeekMonthView extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                Intent createEventIntent = new Intent(getApplicationContext(), EventCreateActivity.class);
+                startActivity(createEventIntent);
             }
         });
+
     }
     //update the week list when week is changed
     void UpdateWeek(){
         weekNameStr="";
         arrayList.clear();
+
+
         for (int i = 0;i<7;i++){
 //            if(i==0) {
 //                now.add(Calendar.DAY_OF_MONTH, curWeekPos);
 //                Log.d("mylog::: ", String.valueOf(curWeekPos));
 //            }
+
             weekdays[i] = format.format(now.getTime());
-            arrayList.add(weekdays[i]);
+
+            curDay = dayFormat.format(now.getTime());
+            curMonth = monthFormat.format(now.getTime());
+            curYear = yearFormat.format(now.getTime());
+
+            arrayList.add(new DayWeek(weekdays[i], curDay, curMonth, curYear));
             if(i==0)
                 weekNameStr = weeknameformat.format(now.getTime()) + " - ";
             else if(i==6)

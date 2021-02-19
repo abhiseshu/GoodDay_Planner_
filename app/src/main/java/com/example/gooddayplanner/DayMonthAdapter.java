@@ -1,4 +1,4 @@
-package com.example.gooddayplanner;
+  package com.example.gooddayplanner;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -58,6 +58,13 @@ public class DayMonthAdapter extends ArrayAdapter {
         if(month.getmTemp()!=null){
             Log.i("RUN","RUNNING");
             mtemp.setText(month.getmTemp());
+        }
+
+        ImageView imgIndicator = (ImageView) GridItemView.findViewById(R.id.indicatorImg);
+        if (month.isEvent()){
+            imgIndicator.setImageResource(R.drawable.iridescent);
+        }else {
+            imgIndicator.setImageResource(0);
         }
 
         return GridItemView;

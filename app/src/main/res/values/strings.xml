@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">GoodDay Planner</string>
+    <string name="lable_event">Event</string>
+    <string name="tb_event_hint">Name of event</string>
+    <string name="lable_date">Date</string>
+    <string name="lable_time">Time</string>
+    <string name="btn_save">Save</string>
+    <string name="btn_start_time">Start time</string>
+    <string name="btn_end_time">End time</string>
+    <string name="lable_description">Description</string>
+    <string name="tb_description_hint">Description</string>
+    <string name="lable_start_time">Start time</string>
+    <string name="lable_end_time">End time</string>
+    <string name="btn_date_picker">Pick date</string>
+    <string name="lable_picker_date">Date</string>
+    <string name="btn_delete">Delete</string>
+    <string name="btn_edit">Edit</string>
+    <string name="lable_location">Location</string>
 </resources>
