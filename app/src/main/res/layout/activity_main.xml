@@ -4,40 +4,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back"
+    android:padding="5dp"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="418dp"
-        android:layout_height="142dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp"
+        android:paddingBottom="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/editTextTextPersonName2"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:ems="10"
-                android:inputType="textPersonName"
-                android:text="Location" />
+                android:layout_weight="3">
+
+                <EditText
+                    android:id="@+id/location_text_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Location"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/gps_location_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:drawable/ic_menu_mylocation"
+                android:text="+" />
 
             <Button
                 android:id="@+id/locationMonthBnid"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="find" />
+                android:text="GET" />
+
 
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,8 +70,8 @@
                 android:id="@+id/leftmonthid"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="L" />
+                android:layout_weight="0.5"
+                android:background="@drawable/left_arrow" />
 
             <TextView
                 android:id="@+id/monthyearid"
@@ -58,6 +80,7 @@
                 android:layout_weight="3"
                 android:text="November,2020"
                 android:textAlignment="center"
+                android:textColor="@color/black"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -65,35 +88,121 @@
                 android:id="@+id/rightmonthid"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="R" />
+                android:layout_weight="0.5"
+                android:background="@drawable/right_arrow" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Swipe left for \n Week View"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="10sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        app:layout_constraintBottom_toTopOf="@+id/girdviewid"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="MON"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TUE"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="WED"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="THU"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="FRI"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SAT"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="SUN"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <GridView
         android:id="@+id/girdviewid"
-        android:layout_width="409dp"
+        android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="24dp"
         android:numColumns="7"
+        android:padding="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" >
-    </GridView>
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"></GridView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabIdMonthView"
+        android:id="@+id/fabIdDayView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:foregroundGravity="right|bottom"
+        android:layout_marginBottom="24dp"
         android:clickable="true"
         android:elevation="6dp"
-        app:pressedTranslationZ="12dp"
+        android:foregroundGravity="right|bottom"
         app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:pressedTranslationZ="12dp"
         app:srcCompat="@android:drawable/ic_input_add" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

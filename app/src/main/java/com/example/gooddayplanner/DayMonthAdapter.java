@@ -38,25 +38,28 @@ public class DayMonthAdapter extends ArrayAdapter {
 
         ImageView mimageView = (ImageView) GridItemView.findViewById(R.id.weatherimg);
 
-        if(month.getmImgURL()!=null) {
-//            ImageRequest imageRequest = new ImageRequest(month.getmImgURL(),
-//                    new Response.Listener<Bitmap>() {
-//                        @Override
-//                        public void onResponse(Bitmap response) {
-//                            mimageView.setImageBitmap(response);
-//                        }
-//                    }, 0, 0, null,
-//                    new Response.ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//                            Log.i("Image access denied", "Volley: " + error);
-//                        }
-//                    });
-            Log.i("RUN","RUNNING");
+        if (month.getmWeather_mood()!=null){
+            if (month.getmWeather_mood().equals("Rain")){
+                Log.i("Weather mood","Rain"+ " " + month.getmWeather_mood());
+                mimageView.setImageResource(R.drawable.rain);
+            }
+            else if(month.getmWeather_mood().equals("Clear")){
+                mimageView.setImageResource(R.drawable.sun);
+            }
+            else if (month.getmWeather_mood().equals("Snow")){
+                mimageView.setImageResource(R.drawable.snow);
+            }else if(month.getmWeather_mood().equals("Clouds")){
+                mimageView.setImageResource(R.drawable.cloud);
+            }
+        }else{
+            mimageView.setImageResource(0);
         }
+
+
         TextView mtemp = (TextView) GridItemView.findViewById(R.id.winfoid);
-        if(month.getmTemp()!=null){
-            Log.i("RUN","RUNNING");
+        if(month.getmTemp()!=""){
+            mtemp.setText((int)(Double.parseDouble(month.getmTemp()) - 273.15) + " C");
+        }else{
             mtemp.setText(month.getmTemp());
         }
 

@@ -3,19 +3,19 @@ package com.example.gooddayplanner;
 public class DayMonth {
     private String mDay;
     private String mTemp;
-    private String mImgURL;
+    private String mWeather_mood;
     private boolean isEvent;
 
     public DayMonth(String mDay){
         this.mDay = mDay;
         this.mTemp = null;
-        this.mImgURL = null;
+        this.mWeather_mood = null;
         this.isEvent = false;
     }
     public DayMonth(String mDay,String mTemp,String mImgURL){
         this.mDay = mDay;
         this.mTemp = mTemp;
-        this.mImgURL = mImgURL;
+        this.mWeather_mood = mImgURL;
         this.isEvent = false;
     }
 
@@ -23,8 +23,8 @@ public class DayMonth {
         this.mDay = mDay;
     }
 
-    public void setmImgURL(String mImgURL) {
-        this.mImgURL = mImgURL;
+    public void setmWeather_mood(String mImgURL) {
+        this.mWeather_mood = mImgURL;
     }
 
     public void setmTemp(String mTemp) {
@@ -39,8 +39,8 @@ public class DayMonth {
         return mDay;
     }
 
-    public String getmImgURL() {
-        return mImgURL;
+    public String getmWeather_mood() {
+        return mWeather_mood;
     }
 
     public String getmTemp() {

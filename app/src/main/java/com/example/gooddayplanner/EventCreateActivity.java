@@ -2,8 +2,13 @@ package com.example.gooddayplanner;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,7 +19,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.DialogFragment;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -79,6 +88,7 @@ public class EventCreateActivity extends AppCompatActivity implements View.OnCli
         event.setEnd(intent.getLongExtra("END", 0));
         try {
             if (!intent.getStringExtra("DESCRIPTION").isEmpty()) {
+                event.setLocation(intent.getStringExtra("LOCATION"));
                 event.setDescription(intent.getStringExtra("DESCRIPTION"));
             }
         }catch (NullPointerException e){
@@ -93,6 +103,8 @@ public class EventCreateActivity extends AppCompatActivity implements View.OnCli
         btnPickerDate.setOnClickListener(this);
         btnPickerStartTime.setOnClickListener(this);
         btnPickerEndTime.setOnClickListener(this);
+
+
     }
 
     @Override
@@ -102,6 +114,7 @@ public class EventCreateActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void onClick(View v) {
+
         if (v.getId() == btnClose.getId()) {
             Log.i("Request Code","RC" + requestCode);
             finish();
@@ -111,9 +124,8 @@ public class EventCreateActivity extends AppCompatActivity implements View.OnCli
                 event.setName(tbEventName.getText().toString());
                 event.setStart(event.getDate() + event.getStart());
                 event.setEnd(event.getDate() + event.getEnd());
-                event.setLocation(tbEventDescription.getText().toString());
+                event.setLocation(tbEventLocation.getText().toString());
                 event.setDescription(tbEventDescription.getText().toString());
-
                 long i = db.addEvent(event);
 
                 if (i < 0) {
@@ -129,8 +141,57 @@ public class EventCreateActivity extends AppCompatActivity implements View.OnCli
 
                     AlertDialog alertDialog = builder.create();
                     alertDialog.show();
+
                 } else {
-                    finishActivity(requestCode);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                        NotificationChannel channel = new NotificationChannel("My Notification","My Notification",NotificationManager.IMPORTANCE_DEFAULT);
+                        NotificationManager manager = getSystemService(NotificationManager.class);
+                        manager.createNotificationChannel(channel);
+                    }
+//                    Calendar casl = Calendar.getInstance();
+//
+//                    casl.setTimeInMillis(event.getDate());
+//                    int mYear = casl.get(Calendar.YEAR);
+//                    int mMonth = casl.get(Calendar.MONTH);
+//                    int mDay = casl.get(Calendar.DAY_OF_MONTH);
+
+
+//                    Log.i("CREate event date",""+ event.getDate() + " " +mDay+" " + mMonth + " " + mYear);
+
+
+                    String message = "New Event is added: " + event.getName();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                    intent.putExtra("day",mDay+"");
+//                    intent.putExtra("month",(mMonth+1)+"");
+//                    intent.putExtra("year",mYear+"");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext()).setSmallIcon(R.drawable.cloud)
+                            .setContentInfo("New Notification")
+                            .setContentText(message)
+                            .setChannelId("My Notification")
+                            .setContentIntent(pendingIntent)
+                            .setAutoCancel(true);
+
+//                    Intent notifi_intent = new Intent(getApplicationContext(),MainActivity.class);
+//                    notifi_intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),0,notifi_intent,PendingIntent.FLAG_UPDATE_CURRENT);
+//                    builder.setContentIntent(pendingIntent);
+
+//                    NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//                    notificationManager.notify(0,builder.build());
+                    NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getApplicationContext());
+                    managerCompat.notify(1,builder.build());
+
+
+                    Snackbar.make(btnSave, "Event", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                    finish();
+
+                    //finishActivity(requestCode);
                 }
             } else if (tbEventName.getText().length() == 0) {
                 tbEventName.setError("You must input a name for the event");
@@ -139,28 +200,28 @@ public class EventCreateActivity extends AppCompatActivity implements View.OnCli
                 toast.show();
             }
             //test
-            SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy");
-            SimpleDateFormat s2 = new SimpleDateFormat("ddMMyyyy");
-            Date d = null;
-            try {
-                d = s1.parse("12/01/2021");
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            String s3 = s2.format(d);
-            Log.i("DATE","CHECK"+ d);
-//            long l = 1613170800000;
-//            Log.i("DATE","IN LONG"+l);
+//            SimpleDateFormat s1 = new SimpleDateFormat("dd/MM/yyyy");
+//            SimpleDateFormat s2 = new SimpleDateFormat("ddMMyyyy");
+//            Date d = null;
+//            try {
+//                d = s1.parse("12/01/2021");
+//            } catch (ParseException e) {
+//                e.printStackTrace();
+//            }
+//            String s3 = s2.format(d);
+//            Log.i("DATE","CHECK"+ d);
+////            long l = 1613170800000;
+////            Log.i("DATE","IN LONG"+l);
+//
+//            GregorianCalendar gregorianCalendar = new GregorianCalendar(2021, 1, 13);
+//            Log.i("DATE CHECK","TOP REAL IS "+ gregorianCalendar.getTimeInMillis());
+//
+//            Event obj[] = db.getEventsForDay(gregorianCalendar.getTimeInMillis());
+//            for(int i=0;i<obj.length;i++){
+//                Log.i("EVENT INFO",obj[i].getName() + " " + obj[i].getStart() + " " + obj[i].getEnd() + " " + obj[i].getDate()+" "+ obj[i].getLocation() +" "+ obj[i].getDescription() +" " + obj[i].getID());
+//            }
 
-            GregorianCalendar gregorianCalendar = new GregorianCalendar(2021, 1, 13);
-            Log.i("DATE CHECK","TOP REAL IS "+ gregorianCalendar.getTimeInMillis());
-
-            Event obj[] = db.getEventsForDay(gregorianCalendar.getTimeInMillis());
-            for(int i=0;i<obj.length;i++){
-                Log.i("EVENT INFO",obj[i].getName() + " " + obj[i].getStart() + " " + obj[i].getEnd() + " " + obj[i].getDate()+" "+ obj[i].getLocation() +" "+ obj[i].getDescription() +" " + obj[i].getID());
-            }
-
-            finish();
+//            finish();
         } else if (v.getId() == btnPickerDate.getId()) {
             DialogFragment datePicker = new DatePickerFragment();
             datePicker.show(getSupportFragmentManager(), "date");
@@ -180,7 +241,7 @@ public class EventCreateActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        lablePickedDate.setText(day + "/" + month + "-" + year);
+        lablePickedDate.setText(day + "/" + (month+1) + "-" + year);
         GregorianCalendar gregorianCalendar = new GregorianCalendar(year, month, day);
         Log.i("DATE CHECK","REAL IS "+ gregorianCalendar.getTimeInMillis());
         event.setDate(gregorianCalendar.getTimeInMillis());

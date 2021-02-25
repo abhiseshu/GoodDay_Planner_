@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back"
-    tools:context=".WeekMonthView">
+    tools:context=".DaysViewActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -17,50 +17,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal">-->
+
+        <!--            <EditText-->
+        <!--                android:id="@+id/location_day_id"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="3"-->
+        <!--                android:ems="10"-->
+        <!--                android:inputType="textPersonName"-->
+        <!--                android:text="Location" />-->
+
+        <!--            <Button-->
+        <!--                android:id="@+id/button"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="find" />-->
+
+        <!--        </LinearLayout>-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/location_test_week_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:ems="10"
-                android:hint="Location"
-                android:inputType="textPersonName" />
-
-            <!--        <Button-->
-            <!--            android:id="@+id/locationWeekBnId"-->
-            <!--            android:layout_width="0dp"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:layout_weight="1"-->
-            <!--            android:text="find" />-->
-
-            <Button
-                android:id="@+id/gps_location_week_id"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:drawable/ic_menu_mylocation"
-                android:text="+" />
-
-            <Button
-                android:id="@+id/locationMonthBnWeekid"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="GET" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp">
 
             <Button
                 android:id="@+id/left_day_button_id"
@@ -74,7 +57,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
-                android:text="Nov 23-Nov 30"
+                android:text="Feb 14, 2021"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -88,14 +71,28 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/Some_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Swipe Right for \n Month View"
+            android:layout_marginTop="8dp"
+            android:text="Events"
             android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="10sp"
-            android:textStyle="italic" />
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/empty_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="15dp"
+            android:background="@color/white"
+            android:padding="25dp"
+            android:text="No Events on this day,\n Add event"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="italic"
+            android:visibility="visible" />
+
     </LinearLayout>
 
     <ListView
@@ -112,7 +109,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabIdWeekView"
+        android:id="@+id/fabIdDayView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"

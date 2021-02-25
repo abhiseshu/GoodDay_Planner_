@@ -2,11 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EventCreateActivity">
-
+    tools:context=".EventEditActivity">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -35,13 +33,22 @@
                         app:backgroundTint="#FF0000"
                         app:icon="@android:drawable/ic_menu_close_clear_cancel"
                         app:iconPadding="0dp" />
-                    <!--                        style="@style/Widget.AppCompat.Button.Borderless"-->
+
+                    <Button
+                        android:id="@+id/btn_delete"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2"
+                        android:onClick="onClick"
+                        android:text="@string/btn_delete"
+                        app:backgroundTint="#FF0000" />
+
                     <Button
                         android:id="@+id/btn_edit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_column="2"
-                        android:text="@string/btn_save"
+                        android:text="@string/btn_edit"
                         app:backgroundTint="#595959" />
                 </TableRow>
 
@@ -163,7 +170,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="Location"
+                android:hint="@string/lable_location"
                 android:importantForAutofill="no"
                 android:inputType="textMultiLine|textPersonName"
                 android:singleLine="false" />
@@ -190,6 +197,5 @@
 
         </LinearLayout>
     </ScrollView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
