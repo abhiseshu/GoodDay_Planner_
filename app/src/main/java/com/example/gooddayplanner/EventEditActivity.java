@@ -165,9 +165,13 @@ public class EventEditActivity extends AppCompatActivity implements View.OnClick
                 if (event.getEnd() > 0 && tbEventName.getText().length() > 0) {
                     Calendar c = Calendar.getInstance();
                     event.setName(tbEventName.getText().toString());
+                    if (!startPressed && !endPressed) {
                         event.setStart(event.getDate() + event.getStart());
                         event.setEnd(event.getDate() + event.getEnd());
-
+                    }else{
+                        event.setStart(event.getStart());
+                        event.setEnd(event.getEnd());
+                    }
                     event.setLocation(tbEventLocation.getText().toString());
                     event.setDescription(tbEventDescription.getText().toString());
 
